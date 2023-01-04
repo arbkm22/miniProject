@@ -1,7 +1,16 @@
 <template>
     <lightning-card>
       <div class="slds-m-horizontal_medium">
-        <h1 class="slds-text-heading_large slds-align_absolute-center">Org Handler</h1>
+        <h1 class="slds-text-heading_large slds-align_absolute-center">Org Manager</h1>
+        <template if:true={triggers}>
+          <lightning-datatable
+            key-field="id"
+            data={triggers}
+            columns={columns}
+            hide-checkbox-column="true"
+            onrowaction={updateTrigger}>
+          </lightning-datatable>
+        </template>
       </div>
     </lightning-card>
 </template>
