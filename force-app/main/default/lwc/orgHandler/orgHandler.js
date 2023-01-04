@@ -3,6 +3,7 @@ import { refreshApex } from '@salesforce/apex';
 import getTriggerList from '@salesforce/apex/orgHandler.getTriggerList';
 import updateTrigger from '@salesforce/apex/orgHandler.updateTrigger';
 import LightningConfirm from 'lightning/confirm';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import noHeader from '@salesforce/resourceUrl/NoHeader';
 import { loadStyle } from 'lightning/platformResourceLoader';
 
@@ -77,7 +78,19 @@ export default class OrgHandler extends LightningElement {
                 console.log("error");
             });
         }
-        
+        if (tgConfirm == 'Activate')
+            this.showToast('activated!');
+        else 
+            this.showToast('deactivated');
     }   
+    
+    showToast(toShow) {
+        const event = new ShowToastEvent({
+            title: 'Success!',
+            message: 'Trigger successfully ' + toShow,
+            variant: 'success',
+        });
+        this.dispatchEvent(event);
+    }
     
 }
