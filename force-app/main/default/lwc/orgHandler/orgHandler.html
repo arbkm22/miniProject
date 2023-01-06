@@ -2,19 +2,27 @@
     <lightning-card>
       <div class="slds-m-horizontal_medium">
         <h1 class="slds-text-heading_large slds-align_absolute-center">Org Manager</h1>
-        <template if:true={isLoading}>
-          <lightning-spinner alternative-text="Loading" variant="brand" size="large">
-          </lightning-spinner>
-        </template>
-        <template if:true={triggers}>
-          <lightning-datatable
-            key-field="id"
-            data={triggers}
-            columns={columns}
-            hide-checkbox-column="true"
-            onrowaction={updateTrigger}>
-          </lightning-datatable>
-        </template>
+        <lightning-tabset>
+          <lightning-tab label="Triggers">
+            <template if:true={isLoading}>
+              <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+              </lightning-spinner>
+            </template>
+            <div class="slds-m-vertical_medium">
+              <template if:true={triggers}>
+                <c-org-handler-datatable
+                  key-field="Id"
+                  data={triggers}
+                  columns={triggerColumns}
+                  hide-checkbox-column="true"
+                  onselectedrec={updateTrigger}>
+                </c-org-handler-datatable>
+              </template>
+            </div>
+          </lightning-tab>
+          <lightning-tab label="Flows"></lightning-tab>
+          <lightning-tab label="Validation Rules"></lightning-tab>
+        </lightning-tabset>
       </div>
     </lightning-card>
 </template>
