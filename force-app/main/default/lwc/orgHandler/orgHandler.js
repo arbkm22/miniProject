@@ -141,10 +141,11 @@ export default class OrgHandler extends LightningElement {
             .catch(() => {
                 console.log("error");
             });
+            let type = 'Trigger';
             if (tgConfirm == 'Activate')
-                this.showToast('activated!');
+                this.showToast(type, 'activated!');
             else 
-                this.showToast('deactivated');
+                this.showToast(type, 'deactivated');
         }
     }   
 
@@ -170,18 +171,18 @@ export default class OrgHandler extends LightningElement {
             .catch(() => {
                 console.log("error");
             });
+            let type = 'Flow';
             if (flowConfirm == 'Activate')
-                this.showToast('activated!');
+                this.showToast(type, 'activated!');
             else 
-                this.showToast('deactivated');
+                this.showToast(type, 'deactivated');
         }
     }
     
-    showToast(toShow) {
-        
+    showToast(type, statusChange) {
         const event = new ShowToastEvent({
             title: 'Success!',
-            message: 'Trigger successfully ' + toShow,
+            message: type + ' successfully ' + statusChange,
             variant: 'success',
         });
         this.dispatchEvent(event);
