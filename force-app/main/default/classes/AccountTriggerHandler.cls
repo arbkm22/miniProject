@@ -11,4 +11,12 @@ public class AccountTriggerHandler {
                 acc.ShippingCountry = acc.BillingCountry;
         }
     }
+    
+    public static void updateState(List<Account> accList, Map<Id, Account> accMap) {
+        for (Account acc : accList) {
+            if (acc.BillingState != accMap.get(acc.Id).BillingState) {
+                acc.State_Changed__c = true;
+            }
+        }
+    }
 }

@@ -2,12 +2,6 @@ public with sharing class orgHandlerClass {
 
     String userName = 'arbkm22@creative-hawk-bdehpf.com';
     String password = 'asdfg1234';
-    public String instanceName = [SELECT InstanceName from Organization limit 1].InstanceName;
-    public String endpoint = 'https://'+instanceName+'salesforce.com/services/data/v50.0/tooling/sobjects';
-    public String oid ;
-    public String cid ;
-    public String apmid ;
-    public String carid ;
 
     @AuraEnabled
     public static void checkToolingApi(String triggerName) {
@@ -63,60 +57,5 @@ public with sharing class orgHandlerClass {
         else {
             System.debug('Error querying triggers: ' + response.getStatusCode() + ' ' + response.getStatus());
         }
-    }
-
-    private String getResponse(HttpRequest req) {
-        try {
-            Http httpreq = new Http();
-            HttpResponse res = httpreq.send(req);
-            String reqresponse = res.getBody();
-            return reqresponse;
-        }
-        catch (Exception e) {
-          return 'Error:' +e.getMessage();
-        }
-    }
-
-    // create a http request with required endpoint and request method
-    private HttpRequest createHttpRequest(String endpoint, String method) {
-        HttpRequest req = new
-        HttpRequest();
-        endpoint += '';
-        req.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionID());
-        req.setHeader('Content-Type', 'application/json');
-        req.setEndpoint(endpoint);
-        req.setMethod(method);
-        return req;
-    }
-
-    public static String createMetadataContainer() {
-        HttpRequest req = createHttpRequest(endpoint+'/sobjects/MetadataContainer','POST');
-        req.setBody('{"Name":"ApexContainer"}');
-        String response = getResponse(req);
-        Map<String,Object> rmp = (Map<String,Object>)JSON.deserializeuntyped(response);
-        String cid = (String)rmp.get('id'); // used to save containerId
-        return cid;
-    }
-
-    public static String createApexTriggerMember(String metaContainerId) {
-        HttpRequest req = createHttpRequest(endpoint+'/sobjects/ApexTriggerMember','POST');
-        req.setBody('{"MetadataContainerId" : "'+mid+'", "ContentEntityId" : "'+axid+'", "Body": "'+classbody+'"}');
-        String response = getResponse(req);
-        Map<String,Object> rmp = (Map<String,Object>)JSON.deserializeuntyped(response);
-        String apmid = (String)rmp.get('id');
-        return apmid;
-    }
-
-    public void createContainerAsyncRequest(String mid) {
-        HttpRequest req = createHttpRequest(endpoint+'/sobjects/containerAsyncRequest','POST');
-        req.setBody('{"MetadataContainerId" : "'+mid+'", "isCheckOnly": "false"}');
-        String response = getResponse(req);
-        Map<String,Object> rmp = (Map<String,Object>)JSON.deserializeuntyped(response);
-        carid = (String)rmp.get('id');
-    }
-
-    public static void updateTrigger() {
-        
-        
     }
 }
